@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div className='flex items-center justify-around pt-4.5 pb-2 px-25 shadow-md'>
+    <div className='flex items-center justify-around pt-4.5 pb-2 px-25 shadow-md '>
         <div className='flex items-center gap-5 '>
            <div className='w-[108px] h-[25px] cursor-pointer mr-8 mb-1.5'>
             <img src={navlogo} alt="navlogo" />
