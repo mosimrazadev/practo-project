@@ -31,7 +31,7 @@ const FindDoctors = () => {
 
          {/*hero-section text-content*/}
          <div className='flex flex-col items-center z-1 absolute w-full '>                                                                               
-          <h3 className='text-white text-[40px] font-bold text-center mt-20 '>Your home for health</h3>        
+          <h3 className='text-white text-[40px] font-semibold text-center mt-20 '>Your home for health</h3>        
           <h3 className='text-white text-[26px] font-semibold text-center mt-8'>Find and Book</h3>
 
           {/*placeholders & searches*/}
@@ -59,7 +59,7 @@ const FindDoctors = () => {
           </div>
 
 
-          {/*hero-footer */}                                   
+          {/*hero-shortcuts */}                                   
           <div className='flex justify-center w-full py-4.5 mt-46 text-white bg-[#1d2869]'>
              {heroShortcuts.map(short => (
                 <div className='group flex items-center flex-col border-r-[1px] border-[#4a5387] cursor-pointer'>
