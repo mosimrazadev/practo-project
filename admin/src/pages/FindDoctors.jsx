@@ -1,5 +1,5 @@
-import React from 'react'
-import findDocBg from "../assets/bg-practo.svg"
+import React, { useEffect, useState } from 'react';
+import findDocBg from "../assets/bg-practo.svg";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
 import { MdOutlineComment } from "react-icons/md";
@@ -9,73 +9,182 @@ import { SlBookOpen } from "react-icons/sl";
 import { CgBriefcase } from "react-icons/cg";
 
 const heroShortcuts = [
-  {title: 'Consult with a doctor', svg: MdOutlineComment},
-  {title: 'Order Medicines', svg: PiShoppingCart},
-  {title: 'View medical records', svg: LiaBookMedicalSolid},
-  {title: 'Book test', svg: PiFlaskLight, text:'NEW', featured: true},
-  {title: 'Read articles', svg: SlBookOpen , icon: true},
-  {title: 'For healthcare providers', svg: CgBriefcase},
+  { title: 'Consult with a doctor', svg: MdOutlineComment },
+  { title: 'Order Medicines', svg: PiShoppingCart },
+  { title: 'View medical records', svg: LiaBookMedicalSolid },
+  { title: 'Book test', svg: PiFlaskLight, text: 'NEW', featured: true },
+  { title: 'Read articles', svg: SlBookOpen, icon: true },
+  { title: 'For healthcare providers', svg: CgBriefcase },
+];
+
+const doctors = [
+  {name: 'Dentist'},
+  {name: 'Gynecologist/obstetrician'},
+  {name: 'General Physician'},
+  {name: 'Dermatologist'},
+  {name: 'Ear-nose-throat (ent) Specialist'},
+  {name: 'Homoeopath'},
+  {name: 'Ayurveda'},
 
 ]
 
-
 const FindDoctors = () => {
+  const [cities, setCities] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
+  const [locationInput, setLocationInput] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [doctorInput, setDoctorInput] = useState("");
+  const [showDoctorDropdown, setShowDoctorDropdown] = useState(false);
+  const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/cities")  // fetching cities from backend
+      .then(res => res.json())
+      .then(data => {
+        setCities(data.data);
+        setFilteredCities(data.data);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+  const handleLocationChange = (e) => {      
+    const value = e.target.value;
+    setLocationInput(value);
+    setShowDropdown(true);
+
+    const filtered = cities.filter(city =>
+      city.name.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setFilteredCities(filtered);
+  };
+
+  const handleSelectCity = (cityName) => {
+    setLocationInput(cityName);
+    setShowDropdown(false);
+    setShowDoctorDropdown(true);
+  };
+
+
+  const handleDoctorChange = (e) => {
+    const value = e.target.value;
+    setDoctorInput(value);
+    setShowDoctorDropdown(true);
+  
+    const filtered = doctors.filter(doc =>
+      doc.name.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setFilteredDoctors(filtered);
+  };
+  
+  const handleSelectDoctor = (docName) => {
+    setDoctorInput(docName);
+    setShowDoctorDropdown(false);
+  };
+
   return (
-    <div className='w-full h-auto md:h-auto bg-gray-100'>                                            
+    <div onClick={() => {setShowDropdown(false); setShowDoctorDropdown(false);}}className='w-full h-auto md:h-auto bg-gray-100' >
+      {/* hero-section */}
+      <div className='flex items-center mt-7 bg-[#28328c] relative'>
+        <div>
+          <img className='object-contain' src={findDocBg} alt="FindDocHeroBg" />
+        </div>
 
-     {/*hero-section*/}
-      <div className='flex items-center mt-7 bg-[#28328c] relative'>                                           
-         <div>
-           <img className='object-contain' src={findDocBg} alt="FindDocHeroBg" />                                          
-         </div>
-
-         {/*hero-section text-content*/}
-         <div className='flex flex-col items-center z-1 absolute w-full '>                                                                               
-          <h3 className='text-white text-[40px] font-semibold text-center mt-20 '>Your home for health</h3>        
+        {/* hero-section text-content */}
+        <div className='flex flex-col items-center z-1 absolute w-full'>
+          <h3 className='text-white text-[40px] font-semibold text-center mt-20'>Your home for health</h3>
           <h3 className='text-white text-[26px] font-semibold text-center mt-8'>Find and Book</h3>
 
-          {/*placeholders & searches*/}
-           <div className='flex flex-col items-start mt-2'>  
-             
-             <div className='flex items-center cursor-pointer'>
-             <div className='flex items-center gap-1.5 w-80 py-3.5 px-2.5 text-[14px] bg-white border-[0.75px] border-[#b4b4be] border-r-0 rounded-l-xs'>
-                <CiLocationOn className='cursor-default'/>                                                                        
-                <input type='text' placeholder= 'Enter your location' className='text-black placeholder-black outline-none cursor-pointer'/>
-             </div>                                                                    
-             <div className='flex items-center gap-1.5 w-118 py-3.5 px-2.5 text-[14px] bg-white border-[0.75px] border-[#b4b4be] rounded-r-xs'>
-                 <IoIosSearch className='cursor-default'/>
-                 <input type='text' placeholder='Search doctors, clinics, hospitals, etc.' className='w-full text-black placeholder-black outline-none  cursor-pointer'/>
-             </div>
-             </div>
+          {/* placeholders & searches */}
+          <div className='flex flex-col items-start mt-2 relative'>
 
-             <div className='flex items-center gap-5 py-3.5 text-[14px] text-[#8d93b3] '>
+            <div className='flex items-center cursor-pointer relative'>
+              <div className='flex items-center gap-1.5 w-80 py-3.5 px-2.5 text-[14px] bg-white border-[0.75px] border-[#b4b4be] border-r-0 rounded-l-xs relative'>
+                
+                <CiLocationOn className='cursor-default' />
+                <input
+                  type='text'
+                  placeholder='Enter your location'
+                  value={locationInput}
+                  onChange={handleLocationChange}
+                  onFocus={() => setShowDropdown(true)}
+                  onClick={(e) => {e.stopPropagation(); setShowDoctorDropdown(false);}}
+                  className='text-black placeholder-black outline-none cursor-pointer w-full'
+                />
+                {showDropdown && filteredCities.length > 0 && (
+                  <div className='absolute top-full left-0 w-full bg-white border border-gray-300 max-h-52 overflow-y-auto z-50 shadow-md rounded scrollbar-hide' onClick={(e) => e.stopPropagation()}>
+                    {filteredCities.map((city, idx) => (
+                      <div key={idx} onClick={() => handleSelectCity(city.name)} className='flex items-center px-3 py-2.5 text-black text-sm outline-none border border-[#e0e0e5] hover:bg-gray-100 cursor-pointer'>
+
+                        <div className='mr-[15px] p-2.5 rounded-2xl bg-gray-100'>
+                        <IoIosSearch/>
+                        </div>
+
+                        <div>
+                          <h5 className='text-m text-[#414146]'>{city.name}</h5>
+                          <h6 className='text-xs text-[#787887] mt-1'>{city.state}</h6>
+                        </div>
+                         
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className='flex items-center gap-1.5 w-118 py-3.5 px-2.5 text-[14px] bg-white border-[0.75px] border-[#b4b4be] rounded-r-xs relative'>
+
+                <IoIosSearch className='cursor-default' />
+                <input
+                  type='text'
+                  placeholder='Search doctors, clinics, hospitals, etc.'
+                  value={doctorInput}
+                  onChange={handleDoctorChange}
+                  onFocus={() => setShowDoctorDropdown(true)}
+                  onClick={(e) => {e.stopPropagation(); setShowDropdown(false);}}
+                  className='w-full text-black placeholder-black outline-none cursor-pointer'
+                 />
+                 {showDoctorDropdown && filteredDoctors.length > 0 && (
+                  <div className="absolute top-full left-0 w-full bg-white border border-gray-300 max-h-52 overflow-y-auto z-50 shadow-md rounded scrollbar-hide" onClick={(e) => e.stopPropagation()}>
+                    {filteredDoctors.map((doc, idx) => (
+                      <div key={idx} onClick={() => handleSelectDoctor(doc.name)} className="flex items-center px-3 py-2.5 text-black text-sm outline-none border border-[#e0e0e5] hover:bg-gray-100 cursor-pointer">
+                       
+                        <div className="mr-[15px] p-2.5 rounded-2xl bg-gray-100">
+                        <IoIosSearch />
+                        </div>
+                        <h5 className="text-m text-[#414146]">{doc.name}</h5>
+                      </div>
+                      ))}
+                  </div>
+                 )}
+              </div>
+
+            </div>
+
+            <div className='flex items-center gap-5 py-3.5 text-[14px] text-[#8d93b3] '>
               <span>Popular searches:</span>
-              <span className=' hover:text-white hover:underline cursor-pointer'>Dermatologist</span>
-              <span className=' hover:text-white hover:underline cursor-pointer'>Pediatrician</span>
-              <span className=' hover:text-white hover:underline cursor-pointer'>Gynecologist/Obstetrician</span>
-              <span className=' hover:text-white hover:underline cursor-pointer'>Others</span>
-             </div>
-
+              <span className='hover:text-white hover:underline cursor-pointer'>Dermatologist</span>
+              <span className='hover:text-white hover:underline cursor-pointer'>Pediatrician</span>
+              <span className='hover:text-white hover:underline cursor-pointer'>Gynecologist/Obstetrician</span>
+              <span className='hover:text-white hover:underline cursor-pointer'>Others</span>
+            </div>
           </div>
 
-
-          {/*hero-shortcuts */}                                   
+          {/* hero-shortcuts */}
           <div className='flex justify-center w-full py-4.5 mt-46 text-white bg-[#1d2869]'>
-             {heroShortcuts.map(short => (
-                <div className='group flex items-center flex-col border-r-[1px] border-[#4a5387] cursor-pointer'>
-                  <div className={short.featured ? 'flex items-center' : ""} >
-                   {<short.svg className={`mb-1 transition-transform duration-300 transform group-hover:scale-125 ${short.icon ? 'w-4.5 h-5.5' : 'w-6 h-5.5'}`}/>}
-                   <span className={short.featured? `text-[10px] border rounded bg-[#00a500] py-0.25 px-1 relative bottom-1` : ''}>{short.text}</span>
-                   </div>
-                   <h5 className='text-[#b8bbd9] text-[14px] px-8 group-hover:text-white'>{short.title}</h5>
+            {heroShortcuts.map(short => (
+              <div key={short.title} className='group flex items-center flex-col border-r-[1px] border-[#4a5387] cursor-pointer'>
+                <div className={short.featured ? 'flex items-center' : ""}>
+                  {<short.svg className={`mb-1 transition-transform duration-300 transform group-hover:scale-125 ${short.icon ? 'w-4.5 h-5.5' : 'w-6 h-5.5'}`} />}
+                  <span className={short.featured ? `text-[10px] border rounded bg-[#00a500] py-0.25 px-1 relative bottom-1` : ''}>{short.text}</span>
                 </div>
-               ))}
+                <h5 className='text-[#b8bbd9] text-[14px] px-8 group-hover:text-white'>{short.title}</h5>
+              </div>
+            ))}
           </div>
 
-        </div> 
-      </div> 
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default FindDoctors
+export default FindDoctors;

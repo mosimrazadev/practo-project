@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./src/config/db");
 const citiesRoutes = require("./src/routes/indianCities.routes")
+const cors = require("cors");
 
 
 
@@ -12,6 +13,15 @@ connectDB();
 
 // Middlewares
 app.use(express.json());
+
+
+// allow frontend
+
+app.use(cors({
+    origin: "http://localhost:5173", 
+    credentials: true
+}));
+
 
 
 app.get("/", (req, res) => {
