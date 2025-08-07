@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSearch } from "../store/SearchContext";
+import { useNavigate } from "react-router-dom";
 import findDocBg from "../assets/bg-practo.svg";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
@@ -31,11 +33,13 @@ const doctors = [
 const FindDoctors = () => {
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
-  const [locationInput, setLocationInput] = useState("");
+  const [locationInput, setLocationInput] = useState("Bangalore");
   const [showDropdown, setShowDropdown] = useState(false);
   const [doctorInput, setDoctorInput] = useState("");
   const [showDoctorDropdown, setShowDoctorDropdown] = useState(false);
   const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+  const { setSearchData } = useSearch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:5000/cities")  // fetching cities from backend
@@ -80,6 +84,18 @@ const FindDoctors = () => {
     setDoctorInput(docName);
     setShowDoctorDropdown(false);
   };
+
+
+  useEffect(() => {
+    if (locationInput && doctorInput) {
+      setSearchData({
+        location: locationInput,
+        doctorType: doctorInput
+      });
+      navigate("/doctors");
+    }
+  }, [locationInput, doctorInput, setSearchData, navigate]);
+
 
   return (
     <div onClick={() => {setShowDropdown(false); setShowDoctorDropdown(false);}}className='w-full h-auto md:h-auto bg-gray-100' >
