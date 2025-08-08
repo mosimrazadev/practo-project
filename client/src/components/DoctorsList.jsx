@@ -156,27 +156,27 @@ const DoctorsList = () => {
 
 
       {/* Doctor Cards */}
-      <div className="flex flex-col">
+      <div className="flex flex-col relative">
         {doctorsList.map((doc, idx) => (
           <div key={idx} className="border-b-2 border-[#f0f0f5] py-6 bg-white flex flex-col md:flex-row gap-4 items-start">
 
             <img src={doc.image}alt={doc.name}className="w-35 h-35 rounded-full object-cover"/>
 
-            <div className="flex-1">
+            <div className="">
               <h3 className="text-[21px] font-medium text-[#199fd9] cursor-pointer hover:underline">{doc.name}</h3>
               <p className="text-sm text-[#737382]">{doc.specialization}</p>
               <p className="text-sm text-[#737382]">{doc.experience}</p>
               <p className="text-sm text-[#414146] font-semibold mt-2 cursor-pointer hover:underline">{doc.location} • <span className="font-normal">{doc.clinic}</span></p>
-              <p className="text-sm text-[#414146] mt-1 pb-3 border-b border-[#f0f0f5] border-dashed">{doc.fee} Consultation fee at clinic</p>
-              <div className="flex items-center mt-4">
+              <p className="text-sm text-[#414146] mt-1 pb-3 border-b border-[#d2d2d7] border-dashed">{doc.fee} Consultation fee at clinic</p>
+              <div className="flex items-center mt-4 cursor-pointer">
                 <span className="flex items-center gap-0.5 py-0.5 px-3 bg-[#00a500] text-sm font-medium text-white rounded-sm"><BiSolidLike />{doc.rating}</span>
-                <p className="text-sm text-[#414146] font-medium ml-4 underline cursor-pointer">{doc.patientStories}</p>
+                <p className="text-sm text-[#414146] font-medium ml-4 underline">{doc.patientStories}</p>
               </div>
          
             </div>
-            <div className="flex flex-col gap-2 mt-8">
+            <div className="flex flex-col gap-2 mt-8 absolute right-3.5">
                 <button className="bg-[#199fd9] text-sm font-semibold text-white px-12.5 py-2.5 rounded cursor-pointer">Book Clinic Visit</button>
-                <button className="flex items-center justify-center gap-1.5 border-2 border-[#dcdcdc] text-[#199fd9] font-medium px-4 py-1.5 rounded hover:bg-[#199fd9] hover:text-white"><IoCall />Contact Clinic</button>
+                <button className="flex items-center justify-center gap-1.5 border-2 border-[#dcdcdc] text-[#199fd9] font-medium px-4 py-1.5 rounded cursor-pointer hover:bg-[#199fd9] hover:text-white"><IoCall />Contact Clinic</button>
               </div>
           </div>
         ))}
