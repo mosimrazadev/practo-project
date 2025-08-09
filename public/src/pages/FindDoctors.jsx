@@ -42,7 +42,7 @@ const FindDoctors = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/cities")  // fetching cities from backend
+    fetch("https://practo-project.onrender.com/cities")  // fetching cities from backend
       .then(res => res.json())
       .then(data => {
         setCities(data.data);

@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // allow frontend
 
 app.use(cors({
-    origin: "https://practo-project.onrender.com/cities", 
+    origin: "https://practo-project.onrender.com", 
     credentials: true
 }));
 
