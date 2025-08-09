@@ -1,17 +1,19 @@
-import React from 'react'
 import navlogo from '../assets/practo.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { GoChevronDown } from "react-icons/go";
 import { useLocation } from 'react-router-dom';
 
 
+
+const Navbar = () => {
+
+const navigate = useNavigate();
 
 const handleLogo = () => {
     navigate("/");
 }
 
 
-const Navbar = () => {
   return (
     <div className='flex items-center justify-around pt-4.5 pb-2 px-25 shadow-md'>
         <div className='flex items-center gap-5 '>
@@ -52,7 +54,7 @@ const SideLink = ({link, label}) => {
   const isActive = pathname === link
 
     return(
-        <Link to={link} className={isActive ? "text-[#28328c] border-b-[5px] border-[#199FD9] font-medium pb-2" : "border-b-[5px] border-transparent text-[#2d2d32] font-medium pb-2"}>
+        <Link to={link} className={`font-medium pb-2 outline-none ${isActive ? "text-[#28328c] border-b-[5px] border-[#199FD9] " : "border-b-[5px] border-transparent text-[#2d2d32] "}`}>
             {label}
         </Link>
     )
