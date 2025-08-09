@@ -31,6 +31,8 @@ const doctors = [
 ]
 
 const FindDoctors = () => {
+
+
   const [cities, setCities] = useState([]);
   const [filteredCities, setFilteredCities] = useState([]);
   const [locationInput, setLocationInput] = useState("Bangalore");
@@ -41,8 +43,10 @@ const FindDoctors = () => {
   const { setSearchData } = useSearch();
   const navigate = useNavigate();
 
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/cities`)  // fetching cities from backend
+    fetch(`${API_BASE}/cities`)  // fetching cities from backend
       .then(res => res.json())
       .then(data => {
         setCities(data.data);
