@@ -43,7 +43,7 @@ const FindDoctors = () => {
   const { setSearchData } = useSearch();
   const navigate = useNavigate();
 
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/cities";
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     fetch(`${API_BASE}/cities`)  // fetching cities from backend
