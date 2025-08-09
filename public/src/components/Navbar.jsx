@@ -4,12 +4,19 @@ import { Link } from 'react-router-dom'
 import { GoChevronDown } from "react-icons/go";
 import { useLocation } from 'react-router-dom';
 
+
+
+const handleLogo = () => {
+    navigate("/");
+}
+
+
 const Navbar = () => {
   return (
     <div className='flex items-center justify-around pt-4.5 pb-2 px-25 shadow-md'>
         <div className='flex items-center gap-5 '>
            <div className='w-[108px] h-[25px] cursor-pointer mr-8 mb-1.5'>
-            <img src={navlogo} alt="navlogo" />
+            <img onClick={handleLogo} src={navlogo} alt="navlogo" />
             </div>
 
            <SideLink link = '/' label = 'Find Doctors'/>
